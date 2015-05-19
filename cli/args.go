@@ -25,6 +25,15 @@ func (a Args) At(n int) string {
 	}
 }
 
+func (a Args) Required(n int) string {
+	value := a.At(n)
+	if value == "" {
+		Errorln(HelpText(a.CommandName(), a.ProgramName()))
+		Exit(1)
+	}
+	return value
+}
+
 func (a Args) HasFlag(flag string) bool {
 	for _, arg := range a.ARGV {
 		if arg == flag {

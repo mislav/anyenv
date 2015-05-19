@@ -17,7 +17,7 @@ running the given command.
 
 func whichCmd(args cli.Args) {
 	currentVersion := detectVersion()
-	exeName := args.List[0]
+	exeName := args.Required(0)
 	exePath := findExecutable(exeName, currentVersion)
 
 	if exePath.IsBlank() {

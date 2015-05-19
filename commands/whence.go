@@ -13,7 +13,7 @@ List all versions that contain the given executable
 `
 
 func whenceCmd(args cli.Args) {
-	exeName := args.List[0]
+	exeName := args.Required(0)
 	var exeFile utils.Pathname
 
 	versionsDir := config.VersionsDir()
