@@ -3,14 +3,13 @@ package commands
 import (
 	"github.com/mislav/everyenv/cli"
 	"github.com/mislav/everyenv/config"
-	"github.com/mislav/everyenv/utils"
 )
 
 func versionsCmd(args cli.Args) {
 	bare := args.HasFlag("--bare")
 
-	versionsPath := utils.NewPathname(config.Root, "versions")
-	versionPaths := versionsPath.Entries()
+	versionsDir := config.VersionsDir()
+	versionPaths := versionsDir.Entries()
 
 	if bare {
 		for _, versionPath := range versionPaths {

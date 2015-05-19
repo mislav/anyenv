@@ -31,8 +31,10 @@ func (p Pathname) Base() string {
 	return path.Base(p.Path)
 }
 
-func (p Pathname) Join(name string) Pathname {
-	return NewPathname(path.Join(p.Path, name))
+func (p Pathname) Join(names ...string) Pathname {
+	components := []string{p.Path}
+	components = append(components, names...)
+	return NewPathname(path.Join(components...))
 }
 
 func (p Pathname) IsBlank() bool {
@@ -48,9 +50,14 @@ func (p Pathname) IsExecutable() bool {
 	return err == nil && (fileInfo.Mode()&0111) != 0
 }
 
-func (p Pathname) Exists() bool {
+func (p Pathname) IsFile() bool {
 	fileInfo, err := os.Stat(p.Path)
 	return err == nil && !fileInfo.IsDir()
+}
+
+func (p Pathname) Exists() bool {
+	_, err := os.Stat(p.Path)
+	return err == nil
 }
 
 func (p Pathname) Equal(other Pathname) bool {

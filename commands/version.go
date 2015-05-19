@@ -37,7 +37,7 @@ func detectVersion() SelectedVersion {
 
 	if version == "" {
 		var err error
-		globalVersionFile := utils.NewPathname(config.Root, "version")
+		globalVersionFile := config.GlobalVersionFile()
 		origin = globalVersionFile.String()
 		version, err = readVersionFile(globalVersionFile)
 		if err != nil {
@@ -51,7 +51,7 @@ func detectVersion() SelectedVersion {
 func findVersionFile(dir utils.Pathname) (versionFile utils.Pathname) {
 	for {
 		versionFile = dir.Join(config.VersionFilename)
-		if versionFile.Exists() {
+		if versionFile.IsFile() {
 			return
 		}
 		if dir.IsRoot() {

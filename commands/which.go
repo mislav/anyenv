@@ -14,7 +14,7 @@ func whichCmd(args cli.Args) {
 	currentVersion := detectVersion()
 
 	if currentVersion.IsSystem() {
-		shimsDir := utils.NewPathname(config.Root, "shims")
+		shimsDir := config.ShimsDir()
 		dirs := strings.Split(os.Getenv("PATH"), ":")
 		var dir utils.Pathname
 		var filename utils.Pathname
@@ -31,7 +31,12 @@ func whichCmd(args cli.Args) {
 			}
 		}
 	} else {
-		filename := utils.NewPathname(config.Root, "versions", currentVersion.Name, "bin", exeName)
+		versionDir := config.VersionDir(currentVersion.Name)
+		if !versionDir.Exists() {
+			cli.Errorf("version `%s' is not installed\n", currentVersion.Name)
+			cli.Exit(1)
+		}
+		filename := versionDir.Join("bin", exeName)
 		if filename.IsExecutable() {
 			exePath = filename
 		}
