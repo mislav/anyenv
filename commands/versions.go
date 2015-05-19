@@ -4,34 +4,27 @@ import (
 	"fmt"
 	"github.com/mislav/everyenv/cli"
 	"github.com/mislav/everyenv/config"
-	"os"
-	"path"
+	"github.com/mislav/everyenv/utils"
 )
 
 func versionsCmd(args cli.Args) {
-	var versions []string
 	bare := args.HasFlag("--bare")
 
-	versionsDir := path.Join(config.Root, "versions")
-	dir, err := os.Open(versionsDir)
-	if err == nil {
-		versions, _ = dir.Readdirnames(0)
-	} else {
-		versions = []string{}
-	}
+	versionsPath := utils.NewPathname(config.Root, "versions")
+	versionPaths := versionsPath.Entries()
 
 	if bare {
-		for _, version := range versions {
-			fmt.Printf("%s\n", version)
+		for _, versionPath := range versionPaths {
+			fmt.Printf("%s\n", versionPath.Base())
 		}
 	} else {
 		currentVersion := detectVersion()
 
-		for _, version := range versions {
-			if version == currentVersion.Name {
-				fmt.Printf("* %s (set by %s)\n", version, currentVersion.Origin)
+		for _, versionPath := range versionPaths {
+			if versionPath.Base() == currentVersion.Name {
+				fmt.Printf("* %s (set by %s)\n", currentVersion.Name, currentVersion.Origin)
 			} else {
-				fmt.Printf("  %s\n", version)
+				fmt.Printf("  %s\n", versionPath.Base())
 			}
 		}
 	}

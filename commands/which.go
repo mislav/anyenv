@@ -4,47 +4,46 @@ import (
 	"fmt"
 	"github.com/mislav/everyenv/cli"
 	"github.com/mislav/everyenv/config"
+	"github.com/mislav/everyenv/utils"
 	"log"
 	"os"
-	"path"
 	"strings"
 )
 
 func whichCmd(args cli.Args) {
-	var exePath string
+	exePath := utils.NewPathname("")
 	exeName := args.List[0]
 	currentVersion := detectVersion()
 
 	if currentVersion.IsSystem() {
-		shimsDir := path.Join(config.Root, "shims")
+		shimsDir := utils.NewPathname(config.Root, "shims")
 		dirs := strings.Split(os.Getenv("PATH"), ":")
-		for _, dir := range dirs {
-			if dir == "" || dir == shimsDir {
+		var dir utils.Pathname
+		var filename utils.Pathname
+
+		for _, p := range dirs {
+			dir = utils.NewPathname(p)
+			if dir.IsBlank() || dir.Equal(shimsDir) {
 				continue
 			}
-			filename := path.Join(dir, exeName)
-			if fileExecutable(filename) {
+			filename = dir.Join(exeName)
+			if filename.IsExecutable() {
 				exePath = filename
 				break
 			}
 		}
 	} else {
-		filename := path.Join(config.Root, "versions", currentVersion.Name, "bin", exeName)
-		if fileExecutable(filename) {
+		filename := utils.NewPathname(config.Root, "versions", currentVersion.Name, "bin", exeName)
+		if filename.IsExecutable() {
 			exePath = filename
 		}
 	}
 
-	if exePath == "" {
+	if exePath.IsBlank() {
 		log.Fatalf("command not found: `%s`\n", exeName)
 	} else {
 		fmt.Println(exePath)
 	}
-}
-
-func fileExecutable(filename string) bool {
-	fileInfo, err := os.Stat(filename)
-	return err == nil && (fileInfo.Mode()&0111) != 0
 }
 
 func init() {

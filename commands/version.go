@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/mislav/everyenv/cli"
 	"github.com/mislav/everyenv/config"
+	"github.com/mislav/everyenv/utils"
 	"log"
 	"os"
-	"path"
 	"strings"
 )
 
@@ -29,15 +29,19 @@ func detectVersion() SelectedVersion {
 	origin := config.VersionEnvName
 
 	if version == "" {
-		pwd, _ := os.Getwd()
-		origin = findVersionFile(pwd)
-		version, _ = readVersionFile(origin)
+		pwd := utils.Getwd()
+		versionFile := findVersionFile(pwd)
+		if !versionFile.IsBlank() {
+			version, _ = readVersionFile(versionFile)
+			origin = versionFile.String()
+		}
 	}
 
 	if version == "" {
 		var err error
-		origin = path.Join(config.Root, "version")
-		version, err = readVersionFile(origin)
+		globalVersionFile := utils.NewPathname(config.Root, "version")
+		origin = globalVersionFile.String()
+		version, err = readVersionFile(globalVersionFile)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -46,33 +50,22 @@ func detectVersion() SelectedVersion {
 	return SelectedVersion{version, origin}
 }
 
-func fileExists(filename string) bool {
-	fileInfo, err := os.Stat(filename)
-	return err == nil && !fileInfo.IsDir()
-}
-
-func findVersionFile(dir string) (filename string) {
-	var parentDir string
+func findVersionFile(dir utils.Pathname) (versionFile utils.Pathname) {
 	for {
-		filename = path.Join(dir, config.VersionFilename)
-		if fileExists(filename) {
+		versionFile = dir.Join(config.VersionFilename)
+		if versionFile.Exists() {
 			return
 		}
-		parentDir = path.Dir(dir)
-		if parentDir == dir {
+		if dir.IsRoot() {
 			break
 		}
-		dir = parentDir
+		dir = dir.Dir()
 	}
-	return ""
+	return utils.NewPathname("")
 }
 
-func readVersionFile(filename string) (value string, err error) {
-	if filename == "" {
-		return
-	}
-
-	file, err := os.Open(filename)
+func readVersionFile(filename utils.Pathname) (value string, err error) {
+	file, err := os.Open(filename.String())
 	if err != nil {
 		return
 	}
