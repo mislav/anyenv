@@ -9,10 +9,19 @@ import (
 )
 
 func whichCmd(args cli.Args) {
-	exePath := utils.NewPathname("")
-	exeName := args.List[0]
 	currentVersion := detectVersion()
+	exeName := args.List[0]
+	exePath := findExecutable(exeName, currentVersion)
 
+	if exePath.IsBlank() {
+		cli.Errorf("%s: command not found\n", exeName)
+		cli.Exit(127)
+	} else {
+		cli.Println(exePath)
+	}
+}
+
+func findExecutable(exeName string, currentVersion SelectedVersion) utils.Pathname {
 	if currentVersion.IsSystem() {
 		shimsDir := config.ShimsDir()
 		dirs := strings.Split(os.Getenv("PATH"), ":")
@@ -26,8 +35,7 @@ func whichCmd(args cli.Args) {
 			}
 			filename = dir.Join(exeName)
 			if filename.IsExecutable() {
-				exePath = filename
-				break
+				return filename
 			}
 		}
 	} else {
@@ -38,16 +46,11 @@ func whichCmd(args cli.Args) {
 		}
 		filename := versionDir.Join("bin", exeName)
 		if filename.IsExecutable() {
-			exePath = filename
+			return filename
 		}
 	}
 
-	if exePath.IsBlank() {
-		cli.Errorf("%s: command not found\n", exeName)
-		cli.Exit(127)
-	} else {
-		cli.Println(exePath)
-	}
+	return utils.NewPathname("")
 }
 
 func init() {
