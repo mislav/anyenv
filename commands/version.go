@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"fmt"
 	"github.com/mislav/everyenv/cli"
 	"github.com/mislav/everyenv/config"
 	"github.com/mislav/everyenv/utils"
@@ -20,7 +19,7 @@ func (ver SelectedVersion) IsSystem() bool {
 
 func versionCmd(args cli.Args) {
 	currentVersion := detectVersion()
-	fmt.Printf("%s (set by %s)\n", currentVersion.Name, currentVersion.Origin)
+	cli.Printf("%s (set by %s)\n", currentVersion.Name, currentVersion.Origin)
 }
 
 func detectVersion() SelectedVersion {

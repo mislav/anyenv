@@ -1,11 +1,9 @@
 package commands
 
 import (
-	"fmt"
 	"github.com/mislav/everyenv/cli"
 	"github.com/mislav/everyenv/config"
 	"github.com/mislav/everyenv/utils"
-	"log"
 	"os"
 	"strings"
 )
@@ -40,9 +38,10 @@ func whichCmd(args cli.Args) {
 	}
 
 	if exePath.IsBlank() {
-		log.Fatalf("command not found: `%s`\n", exeName)
+		cli.Errorf("%s: command not found\n", exeName)
+		cli.Exit(127)
 	} else {
-		fmt.Println(exePath)
+		cli.Println(exePath)
 	}
 }
 

@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"fmt"
 	"github.com/mislav/everyenv/cli"
 	"sort"
 )
@@ -11,7 +10,7 @@ func commandsCmd(args cli.Args) {
 	sort.Strings(commandNames)
 
 	for _, name := range commandNames {
-		fmt.Printf("%s\n", name)
+		cli.Println(name)
 	}
 }
 
