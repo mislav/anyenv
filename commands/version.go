@@ -15,6 +15,10 @@ type SelectedVersion struct {
 	Origin string
 }
 
+func (ver SelectedVersion) IsSystem() bool {
+	return "system" == ver.Name
+}
+
 func versionCmd(args cli.Args) {
 	currentVersion := detectVersion()
 	fmt.Printf("%s (set by %s)\n", currentVersion.Name, currentVersion.Origin)
