@@ -15,7 +15,7 @@ type SelectedVersion struct {
 	Origin string
 }
 
-func versionCmd(args []string) {
+func versionCmd(args cli.Args) {
 	currentVersion := detectVersion()
 	fmt.Printf("%s (set by %s)\n", currentVersion.Name, currentVersion.Origin)
 }

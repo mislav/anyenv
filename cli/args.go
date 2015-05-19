@@ -1,7 +1,11 @@
 package cli
 
-func HasFlag(flag string, args []string) bool {
-	for _, arg := range args {
+type Args struct {
+	List []string
+}
+
+func (a Args) HasFlag(flag string) bool {
+	for _, arg := range a.List {
 		if arg == flag {
 			return true
 		}

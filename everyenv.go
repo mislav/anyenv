@@ -12,7 +12,7 @@ func main() {
 	cmd := cli.Lookup(cmdName)
 
 	if cmd != nil {
-		cmd(os.Args[2:])
+		cmd(cli.Args{os.Args[2:]})
 	} else {
 		log.Fatalf("command not found: `%s`\n", cmdName)
 	}

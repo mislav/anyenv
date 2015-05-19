@@ -8,9 +8,9 @@ import (
 	"path"
 )
 
-func versionsCmd(args []string) {
+func versionsCmd(args cli.Args) {
 	var versions []string
-	bare := cli.HasFlag("--bare", args)
+	bare := args.HasFlag("--bare")
 
 	versionsDir := path.Join(config.Root, "versions")
 	dir, err := os.Open(versionsDir)

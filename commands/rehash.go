@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	cli.Register("rehash", func(args []string) {
+	cli.Register("rehash", func(args cli.Args) {
 		fmt.Printf("rehash: %#v\n", args)
 	})
 }
