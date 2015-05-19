@@ -5,7 +5,6 @@ import (
 	"github.com/mislav/everyenv/cli"
 	"github.com/mislav/everyenv/config"
 	"github.com/mislav/everyenv/utils"
-	"log"
 	"os"
 	"strings"
 )
@@ -43,7 +42,7 @@ func detectVersion() SelectedVersion {
 		origin = globalVersionFile.String()
 		version, err = readVersionFile(globalVersionFile)
 		if err != nil {
-			log.Fatal(err)
+			version = "system"
 		}
 	}
 
