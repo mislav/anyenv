@@ -32,7 +32,7 @@ func versionCmd(args cli.Args) {
 
 func detectVersion() SelectedVersion {
 	version := config.VersionEnv()
-	origin := config.VersionEnvName
+	origin := config.VersionEnvName + " environment variable"
 
 	if version == "" {
 		pwd := utils.Getwd()
