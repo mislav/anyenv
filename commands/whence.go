@@ -6,6 +6,12 @@ import (
 	"github.com/mislav/everyenv/utils"
 )
 
+var whenceHelp = `
+Usage: $ProgramName whence [--path] <command>
+
+List all versions that contain the given executable
+`
+
 func whenceCmd(args cli.Args) {
 	exeName := args.List[0]
 	var exeFile utils.Pathname
@@ -22,5 +28,5 @@ func whenceCmd(args cli.Args) {
 }
 
 func init() {
-	cli.Register("whence", whenceCmd)
+	cli.Register("whence", whenceCmd, whenceHelp)
 }

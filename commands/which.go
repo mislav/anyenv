@@ -8,6 +8,13 @@ import (
 	"strings"
 )
 
+var whichHelp = `
+Usage: $ProgramName which <command>
+
+Displays the full path to the executable that $ProgramName will invoke when
+running the given command.
+`
+
 func whichCmd(args cli.Args) {
 	currentVersion := detectVersion()
 	exeName := args.List[0]
@@ -54,5 +61,5 @@ func findExecutable(exeName string, currentVersion SelectedVersion) utils.Pathna
 }
 
 func init() {
-	cli.Register("which", whichCmd)
+	cli.Register("which", whichCmd, whichHelp)
 }

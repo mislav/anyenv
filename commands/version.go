@@ -17,6 +17,14 @@ func (ver SelectedVersion) IsSystem() bool {
 	return "system" == ver.Name
 }
 
+var versionHelp = `
+Usage: $ProgramName version
+
+Shows the currently selected Ruby version and how it was
+selected. To obtain only the version string, use
+'$ProgramName version-name'.
+`
+
 func versionCmd(args cli.Args) {
 	currentVersion := detectVersion()
 	cli.Printf("%s (set by %s)\n", currentVersion.Name, currentVersion.Origin)
@@ -80,5 +88,5 @@ func readVersionFile(filename utils.Pathname) (value string, err error) {
 }
 
 func init() {
-	cli.Register("version", versionCmd)
+	cli.Register("version", versionCmd, versionHelp)
 }

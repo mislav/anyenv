@@ -5,6 +5,12 @@ import (
 	"sort"
 )
 
+var commandsHelp = `
+Usage: $program_name commands
+
+List all available $program_name commands
+`
+
 func commandsCmd(args cli.Args) {
 	commandNames := cli.CommandNames()
 	sort.Strings(commandNames)
@@ -15,5 +21,5 @@ func commandsCmd(args cli.Args) {
 }
 
 func init() {
-	cli.Register("commands", commandsCmd)
+	cli.Register("commands", commandsCmd, commandsHelp)
 }

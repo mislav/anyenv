@@ -8,6 +8,13 @@ import (
 	"syscall"
 )
 
+var execHelp = `
+Usage: $program_name exec <command> [arg1 arg2...]
+
+Runs an executable by first preparing PATH so that the selected version's
+'bin' directory is directly in the front.
+`
+
 func execCmd(args cli.Args) {
 	currentVersion := detectVersion()
 	exeName := args.List[0]
@@ -25,10 +32,10 @@ func execCmd(args cli.Args) {
 	}
 
 	argv := []string{exeName}
-	argv = append(argv, args.List[1:]...)
+	argv = append(argv, args.ARGV[3:]...)
 	syscall.Exec(exePath.String(), argv, env)
 }
 
 func init() {
-	cli.Register("exec", execCmd)
+	cli.Register("exec", execCmd, execHelp)
 }

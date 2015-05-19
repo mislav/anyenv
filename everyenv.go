@@ -7,13 +7,17 @@ import (
 )
 
 func main() {
-	cmdName := os.Args[1]
-	cmd := cli.Lookup(cmdName)
+	args := cli.Args{os.Args}
+	cmdName := args.CommandName()
+	if cmdName == "" {
+		cmdName = "help"
+	}
 
+	cmd := cli.Lookup(cmdName)
 	if cmd != nil {
-		cmd(cli.Args{os.Args[2:]})
+		cmd(args)
 	} else {
-		cli.Errorf("%s: no such command\n", cmdName)
+		cli.Errorf("%s %s: no such command\n", args.ProgramName(), cmdName)
 		cli.Exit(1)
 	}
 }

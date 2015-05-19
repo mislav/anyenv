@@ -1,12 +1,19 @@
 package commands
 
 import (
-	"fmt"
 	"github.com/mislav/everyenv/cli"
 )
 
+var rehashHelp = `
+Usage: $program_name rehash
+
+Rebuild $program_name shims. Run this after installing executables.
+`
+
+func rehashCmd(args cli.Args) {
+	cli.Printf("rehash: %#v\n", args)
+}
+
 func init() {
-	cli.Register("rehash", func(args cli.Args) {
-		fmt.Printf("rehash: %#v\n", args)
-	})
+	cli.Register("rehash", rehashCmd, rehashHelp)
 }

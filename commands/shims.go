@@ -5,6 +5,12 @@ import (
 	"github.com/mislav/everyenv/config"
 )
 
+var shimsHelp = `
+Usage: $program_name shims [--short]
+
+List existing $program_name shims
+`
+
 func shimsCmd(args cli.Args) {
 	shimsDir := config.ShimsDir()
 	short := args.HasFlag("--short")
@@ -19,5 +25,5 @@ func shimsCmd(args cli.Args) {
 }
 
 func init() {
-	cli.Register("shims", shimsCmd)
+	cli.Register("shims", shimsCmd, shimsHelp)
 }

@@ -5,6 +5,12 @@ import (
 	"github.com/mislav/everyenv/config"
 )
 
+var versionsHelp = `
+Usage: $ProgramName versions [--bare]
+
+Lists all versions found in '$VersionsDir'.
+`
+
 func versionsCmd(args cli.Args) {
 	bare := args.HasFlag("--bare")
 
@@ -29,5 +35,5 @@ func versionsCmd(args cli.Args) {
 }
 
 func init() {
-	cli.Register("versions", versionsCmd)
+	cli.Register("versions", versionsCmd, versionsHelp)
 }
