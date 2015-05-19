@@ -24,6 +24,10 @@ func HelpText(cmdName string, programName string) string {
 				config.Root,
 				"$"+config.RootEnvName,
 				1)
+		case "VersionFilename":
+			return config.VersionFilename
+		case "VersionEnvName":
+			return config.VersionEnvName
 		}
 		return "$" + name
 	})
