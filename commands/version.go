@@ -3,10 +3,77 @@ package commands
 import (
 	"fmt"
 	"github.com/mislav/everyenv/cli"
+	"github.com/mislav/everyenv/config"
+	"log"
+	"os"
+	"path"
+	"strings"
 )
 
+func versionCmd(args []string) {
+	version := config.VersionEnv()
+	origin := config.VersionEnvName
+
+	if version == "" {
+		pwd, _ := os.Getwd()
+		origin = findVersionFile(pwd)
+		version, _ = readVersionFile(origin)
+	}
+
+	if version == "" {
+		var err error
+		origin = path.Join(config.Root, "version")
+		version, err = readVersionFile(origin)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	fmt.Printf("%s (set by %s)\n", version, origin)
+}
+
+func fileExists(filename string) bool {
+	fileInfo, err := os.Stat(filename)
+	return err == nil && !fileInfo.IsDir()
+}
+
+func findVersionFile(dir string) (filename string) {
+	var parentDir string
+	for {
+		filename = path.Join(dir, config.VersionFilename)
+		if fileExists(filename) {
+			return
+		}
+		parentDir = path.Dir(dir)
+		if parentDir == dir {
+			break
+		}
+		dir = parentDir
+	}
+	return ""
+}
+
+func readVersionFile(filename string) (value string, err error) {
+	if filename == "" {
+		return
+	}
+
+	file, err := os.Open(filename)
+	if err != nil {
+		return
+	}
+
+	defer file.Close()
+	data := make([]byte, 1024)
+	count, err := file.Read(data)
+	if err != nil {
+		return
+	}
+
+	value = strings.TrimRight(string(data[:count]), " \r\n")
+	return
+}
+
 func init() {
-	cli.Register("version", func(args []string) {
-		fmt.Printf("version: %#v\n", args)
-	})
+	cli.Register("version", versionCmd)
 }
