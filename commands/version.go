@@ -10,7 +10,17 @@ import (
 	"strings"
 )
 
+type SelectedVersion struct {
+	Name   string
+	Origin string
+}
+
 func versionCmd(args []string) {
+	currentVersion := detectVersion()
+	fmt.Printf("%s (set by %s)\n", currentVersion.Name, currentVersion.Origin)
+}
+
+func detectVersion() SelectedVersion {
 	version := config.VersionEnv()
 	origin := config.VersionEnvName
 
@@ -29,7 +39,7 @@ func versionCmd(args []string) {
 		}
 	}
 
-	fmt.Printf("%s (set by %s)\n", version, origin)
+	return SelectedVersion{version, origin}
 }
 
 func fileExists(filename string) bool {
