@@ -6,7 +6,31 @@ variables such as `.ruby-version`, `RBENV_VERSION`, etc. being configurable,
 this project could in theory manage multiple versions of anything and should be
 able to replace rbenv, pyenv, phantomenv, nodenv and other rbenv-inspired projects.
 
-:construction: Rbenv commands implemented so far:
+### Build your own version manager
+
+For example, let's say you want to build `pyenv` with this:
+
+1. Clone this project into your GOPATH;
+
+2. Run `make` with appropriate configuration:
+
+    ```sh
+    $ PROGRAM_NAME=pyenv PROGRAM_EXECUTABLE=python make
+    ```
+
+3. Move the resulting `pyenv` binary somewhere into your PATH;
+
+4. Marvel at how you can now run `pyenv version` and other commands. This binary
+   is hardcoded to respect:
+
+  * `.python-version` local files,
+  * `PYENV_VERSION`,
+  * `PYENV_ROOT`,
+  * `PYENV_DIR`.
+
+### A work in progress :construction:
+
+Rbenv commands implemented so far:
 
 - [x] `rbenv`
 - [x] `rbenv---version`
