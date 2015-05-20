@@ -18,6 +18,10 @@ func VersionEnv() string {
 	return os.Getenv(VersionEnvName)
 }
 
+func DirEnv() string {
+	return os.Getenv(DirEnvName)
+}
+
 func ShimsDir() utils.Pathname {
 	return utils.NewPathname(Root, "shims")
 }

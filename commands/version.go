@@ -35,6 +35,16 @@ func detectVersion() SelectedVersion {
 	origin := config.VersionEnvName + " environment variable"
 
 	if version == "" {
+		if dirEnv := config.DirEnv(); dirEnv != "" {
+			versionFile := findVersionFile(utils.NewPathname(dirEnv))
+			if !versionFile.IsBlank() {
+				version, _ = readVersionFile(versionFile)
+				origin = versionFile.String()
+			}
+		}
+	}
+
+	if version == "" {
 		pwd := utils.Getwd()
 		versionFile := findVersionFile(pwd)
 		if !versionFile.IsBlank() {
