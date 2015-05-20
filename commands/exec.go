@@ -37,7 +37,12 @@ func execCmd(args cli.Args) {
 
 	argv := []string{exeName}
 	argv = append(argv, args.ARGV[3:]...)
-	syscall.Exec(exePath.String(), argv, env)
+
+	err = syscall.Exec(exePath.String(), argv, env)
+	if err != nil {
+		cli.Errorf("%s: %s\n", args.ProgramName(), err)
+		cli.Exit(1)
+	}
 }
 
 func init() {
