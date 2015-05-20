@@ -6,9 +6,9 @@ import (
 )
 
 var commandsHelp = `
-Usage: $program_name commands
+Usage: $ProgramName commands
 
-List all available $program_name commands
+List all available $ProgramName commands
 `
 
 func commandsCmd(args cli.Args) {

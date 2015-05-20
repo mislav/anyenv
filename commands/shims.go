@@ -6,9 +6,9 @@ import (
 )
 
 var shimsHelp = `
-Usage: $program_name shims [--short]
+Usage: $ProgramName shims [--short]
 
-List existing $program_name shims
+List existing $ProgramName shims
 `
 
 func shimsCmd(args cli.Args) {
