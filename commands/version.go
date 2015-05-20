@@ -42,18 +42,18 @@ func detectVersion() SelectedVersion {
 	version := config.VersionEnv()
 	origin := config.VersionEnvName + " environment variable"
 
-	if version == "" {
-		if dirEnv := config.DirEnv(); dirEnv != "" {
-			versionFile := findVersionFile(utils.NewPathname(dirEnv))
-			if !versionFile.IsBlank() {
-				version, _ = readVersionFile(versionFile)
-				origin = versionFile.String()
-			}
+	dirEnv := utils.NewPathname(config.DirEnv())
+	pwd := utils.Getwd()
+
+	if version == "" && !dirEnv.IsBlank() {
+		versionFile := findVersionFile(dirEnv)
+		if !versionFile.IsBlank() {
+			version, _ = readVersionFile(versionFile)
+			origin = versionFile.String()
 		}
 	}
 
-	if version == "" {
-		pwd := utils.Getwd()
+	if version == "" && !pwd.Equal(dirEnv) {
 		versionFile := findVersionFile(pwd)
 		if !versionFile.IsBlank() {
 			version, _ = readVersionFile(versionFile)
