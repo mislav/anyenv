@@ -71,6 +71,15 @@ func detectVersion() SelectedVersion {
 		}
 	}
 
+	versionPrefix := config.MainExecutable + "-"
+	if strings.HasPrefix(version, versionPrefix) {
+		prefixedDir := config.VersionDir(version)
+		unprefixedDir := config.VersionDir(strings.TrimPrefix(version, versionPrefix))
+		if !prefixedDir.Exists() && unprefixedDir.Exists() {
+			version = unprefixedDir.Base()
+		}
+	}
+
 	return SelectedVersion{version, origin}
 }
 
