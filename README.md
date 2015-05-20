@@ -46,7 +46,7 @@ Rbenv commands implemented so far:
 - [x] `rbenv-rehash`
 - [x] `rbenv-root`
 - [ ] `rbenv-sh-rehash`
-- [ ] `rbenv-sh-shell`
+- [x] `rbenv-sh-shell`
 - [x] `rbenv-shims`
 - [x] `rbenv-version`
 - [ ] `rbenv-version-file`
