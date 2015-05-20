@@ -13,8 +13,15 @@ func helpCmd(args cli.Args) {
 	if commandName == "" {
 		commandName = "help"
 	}
+
 	text := cli.HelpText(commandName, args.ProgramName())
-	cli.Println(text)
+
+	if text == "" {
+		cli.Errorf("%s: %s: no such command\n", args.ProgramName(), commandName)
+		cli.Exit(1)
+	} else {
+		cli.Println(text)
+	}
 }
 
 func init() {
