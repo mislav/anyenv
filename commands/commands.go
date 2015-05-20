@@ -20,7 +20,7 @@ func commandsCmd(args cli.Args) {
 	sort.Strings(commandNames)
 
 	for _, name := range commandNames {
-		isSh := strings.Index(name, "sh-") == 0
+		isSh := strings.HasPrefix(name, "sh-")
 		if (!shOnly || isSh) && !(noSh && isSh) {
 			cli.Println(name)
 		}

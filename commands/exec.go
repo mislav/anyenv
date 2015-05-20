@@ -27,7 +27,7 @@ func execCmd(args cli.Args) {
 	env := os.Environ()
 	if !currentVersion.IsSystem() {
 		for i, value := range env {
-			if strings.Index(value, "PATH=") == 0 {
+			if strings.HasPrefix(value, "PATH=") {
 				pair := strings.SplitN(value, "=", 2)
 				versionBindir := config.VersionDir(currentVersion.Name).Join("bin")
 				env[i] = "PATH=" + versionBindir.String() + ":" + pair[1]
