@@ -15,7 +15,7 @@ able to replace rbenv, pyenv, phantomenv, nodenv and other rbenv-inspired projec
 - [x] `rbenv-exec`
 - [x] `rbenv-global`
 - [x] `rbenv-help`
-- [ ] `rbenv-hooks`
+- [ ] `rbenv-hooks` :warning:
 - [ ] `rbenv-init`
 - [x] `rbenv-local`
 - [x] `rbenv-prefix`
