@@ -4,6 +4,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strings"
 )
 
 type Pathname struct {
@@ -101,4 +102,23 @@ func (p Pathname) BareEntries() []string {
 		}
 	}
 	return []string{}
+}
+
+func SearchInPath(pattern string) []Pathname {
+	dirs := strings.Split(os.Getenv("PATH"), ":")
+	results := []Pathname{}
+
+	for _, p := range dirs {
+		dir := NewPathname(p)
+		if dir.IsBlank() {
+			continue
+		}
+		for _, cmd := range dir.EntriesMatching(pattern) {
+			if cmd.IsExecutable() {
+				results = append(results, cmd.Abs())
+			}
+		}
+	}
+
+	return results
 }

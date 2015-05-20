@@ -3,7 +3,6 @@ package commands
 import (
 	"github.com/mislav/everyenv/cli"
 	"github.com/mislav/everyenv/utils"
-	"os"
 	"strings"
 )
 
@@ -34,19 +33,10 @@ func commandsCmd(args cli.Args) {
 
 func findAvailableCommands(programName string) utils.Set {
 	commandNames := utils.NewSetFromSlice(cli.CommandNames())
-	prefix := programName + "-"
 
-	paths := strings.Split(os.Getenv("PATH"), ":")
-	for _, p := range paths {
-		if p == "" {
-			continue
-		}
-		path := utils.NewPathname(p)
-		for _, cmd := range path.EntriesMatching(prefix + "*") {
-			if cmd.IsExecutable() {
-				commandNames.Add(strings.TrimPrefix(cmd.Base(), prefix))
-			}
-		}
+	prefix := programName + "-"
+	for _, cmd := range utils.SearchInPath(prefix + "*") {
+		commandNames.Add(strings.TrimPrefix(cmd.Base(), prefix))
 	}
 
 	return commandNames

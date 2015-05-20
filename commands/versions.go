@@ -24,7 +24,7 @@ func versionsCmd(args cli.Args) {
 	} else {
 		currentVersion := detectVersion()
 
-		systemExecutable := FindInPath(config.MainExecutable)
+		systemExecutable := findOnSystem(config.MainExecutable)
 		if !systemExecutable.IsBlank() {
 			versions = append([]string{"system"}, versions...)
 		}

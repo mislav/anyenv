@@ -2,7 +2,8 @@ package main
 
 import (
 	"github.com/mislav/everyenv/cli"
-	"github.com/mislav/everyenv/commands"
+	_ "github.com/mislav/everyenv/commands"
+	"github.com/mislav/everyenv/utils"
 	"os"
 	"syscall"
 )
@@ -19,7 +20,12 @@ func main() {
 		cmd(args)
 	} else {
 		exeName := args.ProgramName() + "-" + cmdName
-		exeCmd := commands.FindInPath(exeName)
+		results := utils.SearchInPath(exeName)
+		if len(results) == 0 {
+			cli.Errorf("%s: command not found\n", exeName)
+			cli.Exit(1)
+		}
+		exeCmd := results[0]
 
 		argv := []string{exeName}
 		argv = append(argv, args.ARGV[2:]...)

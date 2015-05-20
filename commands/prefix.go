@@ -20,7 +20,7 @@ func prefixCmd(args cli.Args) {
 	}
 
 	if version == "system" {
-		exePath := FindInPath(config.MainExecutable)
+		exePath := findOnSystem(config.MainExecutable)
 		if exePath.IsBlank() {
 			cli.Errorf("%s: system version not found in PATH\n", args.ProgramName())
 			cli.Exit(1)
