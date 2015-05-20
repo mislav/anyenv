@@ -14,7 +14,13 @@ func Lookup(cmdName string) func(Args) {
 }
 
 func HelpText(cmdName string, programName string) string {
-	text := strings.Trim(helpText[cmdName], " \n")
+	text := helpText[cmdName]
+	if text == "" && !strings.HasPrefix(cmdName, "sh-") {
+		text = helpText["sh-"+cmdName]
+	}
+
+	text = strings.Trim(text, " \n")
+
 	return os.Expand(text, func(name string) string {
 		switch name {
 		case "ProgramName":
