@@ -39,7 +39,7 @@ func whichCmd(args cli.Args) {
 
 func findExecutable(exeName string, currentVersion SelectedVersion) (filename utils.Pathname, err error) {
 	if currentVersion.IsSystem() {
-		filename = findInPath(exeName)
+		filename = FindInPath(exeName)
 	} else {
 		versionDir := config.VersionDir(currentVersion.Name)
 		if !versionDir.Exists() {
@@ -55,7 +55,7 @@ func findExecutable(exeName string, currentVersion SelectedVersion) (filename ut
 	return
 }
 
-func findInPath(exeName string) utils.Pathname {
+func FindInPath(exeName string) utils.Pathname {
 	shimsDir := config.ShimsDir()
 	dirs := strings.Split(os.Getenv("PATH"), ":")
 

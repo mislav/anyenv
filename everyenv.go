@@ -2,8 +2,9 @@ package main
 
 import (
 	"github.com/mislav/everyenv/cli"
-	_ "github.com/mislav/everyenv/commands"
+	"github.com/mislav/everyenv/commands"
 	"os"
+	"syscall"
 )
 
 func main() {
@@ -17,7 +18,16 @@ func main() {
 	if cmd != nil {
 		cmd(args)
 	} else {
-		cli.Errorf("%s %s: no such command\n", args.ProgramName(), cmdName)
-		cli.Exit(1)
+		exeName := args.ProgramName() + "-" + cmdName
+		exeCmd := commands.FindInPath(exeName)
+
+		argv := []string{exeName}
+		argv = append(argv, args.ARGV[2:]...)
+
+		err := syscall.Exec(exeCmd.String(), argv, os.Environ())
+		if err != nil {
+			cli.Errorf("%s: %s\n", exeName, err)
+			cli.Exit(1)
+		}
 	}
 }
