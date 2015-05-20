@@ -2,6 +2,7 @@ package cli
 
 import (
 	"path"
+	"path/filepath"
 )
 
 type Args struct {
@@ -10,6 +11,15 @@ type Args struct {
 
 func (a Args) ProgramName() string {
 	return path.Base(a.ARGV[0])
+}
+
+func (a Args) FullProgramName() string {
+	abs, err := filepath.Abs(a.ARGV[0])
+	if err == nil {
+		return abs
+	} else {
+		return a.ARGV[0]
+	}
 }
 
 func (a Args) CommandName() string {

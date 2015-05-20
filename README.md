@@ -19,7 +19,7 @@ able to replace rbenv, pyenv, phantomenv, nodenv and other rbenv-inspired projec
 - [ ] `rbenv-init`
 - [x] `rbenv-local`
 - [x] `rbenv-prefix`
-- [ ] `rbenv-rehash`
+- [x] `rbenv-rehash`
 - [x] `rbenv-root`
 - [ ] `rbenv-sh-rehash`
 - [ ] `rbenv-sh-shell`
