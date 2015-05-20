@@ -19,13 +19,23 @@ func prefixCmd(args cli.Args) {
 		version = currentVersion.Name
 	}
 
-	versionDir := config.VersionDir(version)
-	if versionDir.Exists() {
-		cli.Println(versionDir)
+	if version == "system" {
+		exePath := findInPath(config.MainExecutable)
+		if exePath.IsBlank() {
+			cli.Errorf("%s: system version not found in PATH\n", args.ProgramName())
+			cli.Exit(1)
+		} else {
+			cli.Println(exePath.Dir().Dir())
+		}
 	} else {
-		err := VersionNotFound{version}
-		cli.Errorf("%s: %s\n", args.ProgramName(), err)
-		cli.Exit(1)
+		versionDir := config.VersionDir(version)
+		if versionDir.Exists() {
+			cli.Println(versionDir)
+		} else {
+			err := VersionNotFound{version}
+			cli.Errorf("%s: %s\n", args.ProgramName(), err)
+			cli.Exit(1)
+		}
 	}
 }
 
