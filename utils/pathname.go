@@ -83,6 +83,15 @@ func (p Pathname) Entries() []Pathname {
 	return results
 }
 
+func (p Pathname) EntriesMatching(pattern string) []Pathname {
+	entries, _ := filepath.Glob(p.Path + "/" + pattern)
+	results := make([]Pathname, len(entries))
+	for i, entry := range entries {
+		results[i] = NewPathname(entry)
+	}
+	return results
+}
+
 func (p Pathname) BareEntries() []string {
 	file, err := os.Open(p.Path)
 	if err == nil {

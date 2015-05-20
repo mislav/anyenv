@@ -41,9 +41,9 @@ func initCmd(args cli.Args) {
 		}
 
 		shCommands := []string{}
-		for _, cmd := range cli.CommandNames() {
+		for _, cmd := range findAvailableCommands(args.ProgramName()).Array() {
 			if strings.HasPrefix(cmd, "sh-") {
-				shCommands = append(shCommands, cmd)
+				shCommands = append(shCommands, strings.TrimPrefix(cmd, "sh-"))
 			}
 		}
 
