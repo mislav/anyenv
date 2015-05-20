@@ -68,7 +68,7 @@ func findInPath(exeName string) utils.Pathname {
 		}
 		filename = dir.Join(exeName)
 		if filename.IsExecutable() {
-			return filename
+			return filename.Abs()
 		}
 	}
 

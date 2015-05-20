@@ -3,6 +3,7 @@ package utils
 import (
 	"os"
 	"path"
+	"path/filepath"
 )
 
 type Pathname struct {
@@ -29,6 +30,15 @@ func (p Pathname) Dir() Pathname {
 
 func (p Pathname) Base() string {
 	return path.Base(p.Path)
+}
+
+func (p Pathname) Abs() Pathname {
+	abs, err := filepath.Abs(p.Path)
+	if err == nil {
+		return NewPathname(abs)
+	} else {
+		return p
+	}
 }
 
 func (p Pathname) Join(names ...string) Pathname {
