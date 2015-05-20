@@ -23,7 +23,8 @@ func prefixCmd(args cli.Args) {
 	if versionDir.Exists() {
 		cli.Println(versionDir)
 	} else {
-		cli.Errorf("version `%s' not installed\n", version)
+		err := VersionNotFound{version}
+		cli.Errorf("%s: %s\n", args.ProgramName(), err)
 		cli.Exit(1)
 	}
 }

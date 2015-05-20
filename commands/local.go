@@ -44,14 +44,15 @@ func localCmd(args cli.Args) {
 			version, _ := readVersionFile(versionFile)
 			cli.Println(version)
 		} else {
-			cli.Errorln("no local version configured for this directory")
+			cli.Errorf("%s: no local version configured for this directory\n", args.ProgramName())
 			cli.Exit(1)
 		}
 	} else {
 		if assign != "system" {
 			versionDir := config.VersionDir(assign)
 			if !versionDir.Exists() {
-				cli.Errorf("version `%s` not installed\n", assign)
+				err := VersionNotFound{assign}
+				cli.Errorf("%s: %s\n", args.ProgramName(), err)
 				cli.Exit(1)
 			}
 		}

@@ -18,9 +18,13 @@ Runs an executable by first preparing PATH so that the selected version's
 func execCmd(args cli.Args) {
 	currentVersion := detectVersion()
 	exeName := args.Required(0)
-	exePath := findExecutable(exeName, currentVersion)
-	env := os.Environ()
+	exePath, err := findExecutable(exeName, currentVersion)
+	if err != nil {
+		cli.Errorf("%s: %s\n", args.ProgramName(), err)
+		cli.Exit(1)
+	}
 
+	env := os.Environ()
 	if !currentVersion.IsSystem() {
 		for i, value := range env {
 			if strings.Index(value, "PATH=") == 0 {

@@ -17,6 +17,14 @@ func (ver SelectedVersion) IsSystem() bool {
 	return "system" == ver.Name
 }
 
+type VersionNotFound struct {
+	Version string
+}
+
+func (err VersionNotFound) Error() string {
+	return "version `" + err.Version + "' is not installed"
+}
+
 var versionHelp = `
 Usage: $ProgramName version
 

@@ -34,7 +34,8 @@ func globalCmd(args cli.Args) {
 		if assign != "system" {
 			versionDir := config.VersionDir(assign)
 			if !versionDir.Exists() {
-				cli.Errorf("version `%s` not installed\n", assign)
+				err := VersionNotFound{assign}
+				cli.Errorf("%s: %s\n", args.ProgramName(), err)
 				cli.Exit(1)
 			}
 		}

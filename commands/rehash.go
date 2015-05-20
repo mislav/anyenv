@@ -65,7 +65,7 @@ func rehashCmd(args cli.Args) {
 
 	file, err := os.OpenFile(shimFile.String(), os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
 	if err != nil {
-		cli.Errorf("cannot rehash: %s\n", err)
+		cli.Errorf("%s: cannot rehash: %s\n", args.ProgramName(), err)
 		cli.Exit(1)
 	}
 

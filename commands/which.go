@@ -18,10 +18,14 @@ running the given command.
 func whichCmd(args cli.Args) {
 	currentVersion := detectVersion()
 	exeName := args.Required(0)
-	exePath := findExecutable(exeName, currentVersion)
+	exePath, err := findExecutable(exeName, currentVersion)
+	if err != nil {
+		cli.Errorf("%s: %s\n", args.ProgramName(), err)
+		cli.Exit(1)
+	}
 
 	if exePath.IsBlank() {
-		cli.Errorf("%s: command not found\n", exeName)
+		cli.Errorf("%s: %s: command not found\n", args.ProgramName(), exeName)
 		versions := whence(exeName)
 		if len(versions) > 0 {
 			cli.Errorf("\nThe `%s' command exists in these versions:\n  %s\n", exeName,
@@ -33,25 +37,22 @@ func whichCmd(args cli.Args) {
 	}
 }
 
-func findExecutable(exeName string, currentVersion SelectedVersion) utils.Pathname {
+func findExecutable(exeName string, currentVersion SelectedVersion) (filename utils.Pathname, err error) {
 	if currentVersion.IsSystem() {
-		filename := findInPath(exeName)
-		if !filename.IsBlank() {
-			return filename
-		}
+		filename = findInPath(exeName)
 	} else {
 		versionDir := config.VersionDir(currentVersion.Name)
 		if !versionDir.Exists() {
-			cli.Errorf("version `%s' is not installed\n", currentVersion.Name)
-			cli.Exit(1)
+			err = VersionNotFound{currentVersion.Name}
+			return
 		}
 		filename := versionDir.Join("bin", exeName)
-		if filename.IsExecutable() {
-			return filename
+		if !filename.IsExecutable() {
+			filename = utils.NewPathname("")
 		}
 	}
 
-	return utils.NewPathname("")
+	return
 }
 
 func findInPath(exeName string) utils.Pathname {
