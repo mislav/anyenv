@@ -17,17 +17,22 @@ func versionsCmd(args cli.Args) {
 	versionsDir := config.VersionsDir()
 	versions := versionsDir.BareEntries()
 
-	systemExecutable := findInPath(config.MainExecutable)
-	if !systemExecutable.IsBlank() {
-		versions = append([]string{"system"}, versions...)
-	}
-
 	if bare {
 		for _, version := range versions {
 			cli.Printf("%s\n", version)
 		}
 	} else {
 		currentVersion := detectVersion()
+
+		systemExecutable := findInPath(config.MainExecutable)
+		if !systemExecutable.IsBlank() {
+			versions = append([]string{"system"}, versions...)
+		}
+
+		if len(versions) == 0 {
+			cli.Errorf("%s: warning: no versions detected on the system\n", args.ProgramName())
+			cli.Exit(1)
+		}
 
 		for _, version := range versions {
 			if version == currentVersion.Name {
