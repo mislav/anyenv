@@ -9,7 +9,7 @@ able to replace rbenv, pyenv, phantomenv, nodenv and other rbenv-inspired projec
 :construction: Rbenv commands implemented so far:
 
 - [x] `rbenv`
-- [ ] `rbenv---version`
+- [x] `rbenv---version`
 - [x] `rbenv-commands`
 - [ ] `rbenv-completions`
 - [x] `rbenv-exec`

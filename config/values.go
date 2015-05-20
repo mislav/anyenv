@@ -12,6 +12,7 @@ var (
 	VersionEnvName  = "RBENV_VERSION"
 	DirEnvName      = "RBENV_DIR"
 	MainExecutable  = "ruby"
+	BuildVersion    = "0.0.0"
 )
 
 func VersionEnv() string {
