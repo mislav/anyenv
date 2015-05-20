@@ -46,7 +46,7 @@ func findExecutable(exeName string, currentVersion SelectedVersion) (filename ut
 			err = VersionNotFound{currentVersion.Name}
 			return
 		}
-		filename := versionDir.Join("bin", exeName)
+		filename = versionDir.Join("bin", exeName)
 		if !filename.IsExecutable() {
 			filename = utils.NewPathname("")
 		}
