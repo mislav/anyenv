@@ -22,6 +22,11 @@ func whichCmd(args cli.Args) {
 
 	if exePath.IsBlank() {
 		cli.Errorf("%s: command not found\n", exeName)
+		versions := whence(exeName)
+		if len(versions) > 0 {
+			cli.Errorf("\nThe `%s' command exists in these versions:\n  %s\n", exeName,
+				strings.Join(versions, "\n  "))
+		}
 		cli.Exit(127)
 	} else {
 		cli.Println(exePath)
