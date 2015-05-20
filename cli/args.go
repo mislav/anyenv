@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"github.com/mislav/everyenv/utils"
 	"path"
 	"path/filepath"
 	"strings"
@@ -15,11 +16,21 @@ func (a Args) ProgramName() string {
 }
 
 func (a Args) FullProgramName() string {
-	abs, err := filepath.Abs(a.ARGV[0])
-	if err == nil {
-		return abs
+	name := a.ARGV[0]
+	if strings.Contains(name, "/") {
+		abs, err := filepath.Abs(name)
+		if err == nil {
+			return abs
+		} else {
+			return name
+		}
 	} else {
-		return a.ARGV[0]
+		results := utils.SearchInPath(name)
+		if len(results) > 0 {
+			return results[0].String()
+		} else {
+			return name
+		}
 	}
 }
 
