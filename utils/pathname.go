@@ -65,16 +65,21 @@ func (p Pathname) Equal(other Pathname) bool {
 }
 
 func (p Pathname) Entries() []Pathname {
+	entries := p.BareEntries()
+	results := make([]Pathname, len(entries))
+	for i, entry := range entries {
+		results[i] = p.Join(entry)
+	}
+	return results
+}
+
+func (p Pathname) BareEntries() []string {
 	file, err := os.Open(p.Path)
 	if err == nil {
 		entries, err := file.Readdirnames(0)
 		if err == nil {
-			results := make([]Pathname, len(entries))
-			for i, entry := range entries {
-				results[i] = p.Join(entry)
-			}
-			return results
+			return entries
 		}
 	}
-	return []Pathname{}
+	return []string{}
 }

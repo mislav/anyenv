@@ -30,20 +30,9 @@ func whichCmd(args cli.Args) {
 
 func findExecutable(exeName string, currentVersion SelectedVersion) utils.Pathname {
 	if currentVersion.IsSystem() {
-		shimsDir := config.ShimsDir()
-		dirs := strings.Split(os.Getenv("PATH"), ":")
-		var dir utils.Pathname
-		var filename utils.Pathname
-
-		for _, p := range dirs {
-			dir = utils.NewPathname(p)
-			if dir.IsBlank() || dir.Equal(shimsDir) {
-				continue
-			}
-			filename = dir.Join(exeName)
-			if filename.IsExecutable() {
-				return filename
-			}
+		filename := findInPath(exeName)
+		if !filename.IsBlank() {
+			return filename
 		}
 	} else {
 		versionDir := config.VersionDir(currentVersion.Name)
@@ -52,6 +41,27 @@ func findExecutable(exeName string, currentVersion SelectedVersion) utils.Pathna
 			cli.Exit(1)
 		}
 		filename := versionDir.Join("bin", exeName)
+		if filename.IsExecutable() {
+			return filename
+		}
+	}
+
+	return utils.NewPathname("")
+}
+
+func findInPath(exeName string) utils.Pathname {
+	shimsDir := config.ShimsDir()
+	dirs := strings.Split(os.Getenv("PATH"), ":")
+
+	var dir utils.Pathname
+	var filename utils.Pathname
+
+	for _, p := range dirs {
+		dir = utils.NewPathname(p)
+		if dir.IsBlank() || dir.Equal(shimsDir) {
+			continue
+		}
+		filename = dir.Join(exeName)
 		if filename.IsExecutable() {
 			return filename
 		}

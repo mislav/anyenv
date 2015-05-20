@@ -15,20 +15,25 @@ func versionsCmd(args cli.Args) {
 	bare := args.HasFlag("--bare")
 
 	versionsDir := config.VersionsDir()
-	versionPaths := versionsDir.Entries()
+	versions := versionsDir.BareEntries()
+
+	systemExecutable := findInPath(config.MainExecutable)
+	if !systemExecutable.IsBlank() {
+		versions = append([]string{"system"}, versions...)
+	}
 
 	if bare {
-		for _, versionPath := range versionPaths {
-			cli.Printf("%s\n", versionPath.Base())
+		for _, version := range versions {
+			cli.Printf("%s\n", version)
 		}
 	} else {
 		currentVersion := detectVersion()
 
-		for _, versionPath := range versionPaths {
-			if versionPath.Base() == currentVersion.Name {
+		for _, version := range versions {
+			if version == currentVersion.Name {
 				cli.Printf("* %s (set by %s)\n", currentVersion.Name, currentVersion.Origin)
 			} else {
-				cli.Printf("  %s\n", versionPath.Base())
+				cli.Printf("  %s\n", version)
 			}
 		}
 	}
