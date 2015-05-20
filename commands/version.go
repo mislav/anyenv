@@ -28,7 +28,7 @@ func (err VersionNotFound) Error() string {
 var versionHelp = `
 Usage: $ProgramName version
 
-Shows the currently selected Ruby version and how it was
+Shows the currently selected version and how it was
 selected. To obtain only the version string, use
 '$ProgramName version-name'.
 `

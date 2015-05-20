@@ -9,7 +9,7 @@ var shellHelp = `
 Usage: $ProgramName shell <version>
        $ProgramName shell --unset
 
-Sets a shell-specific Ruby version by setting the '$VersionEnvName'
+Sets a shell-specific version by setting the '$VersionEnvName'
 environment variable in your shell. This version overrides local
 application-specific versions and the global version.
 
