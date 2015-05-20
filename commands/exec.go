@@ -28,9 +28,9 @@ func execCmd(args cli.Args) {
 	if !currentVersion.IsSystem() {
 		for i, value := range env {
 			if strings.HasPrefix(value, "PATH=") {
-				pair := strings.SplitN(value, "=", 2)
+				oldPath := strings.TrimPrefix(value, "PATH=")
 				versionBindir := config.VersionDir(currentVersion.Name).Join("bin")
-				env[i] = "PATH=" + versionBindir.String() + ":" + pair[1]
+				env[i] = "PATH=" + versionBindir.String() + ":" + oldPath
 			}
 		}
 	}
