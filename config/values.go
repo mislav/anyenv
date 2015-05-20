@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	Root            = os.ExpandEnv("$HOME/.rbenv")
+	Root            = "$HOME/.rbenv"
 	RootEnvName     = "RBENV_ROOT"
 	VersionFilename = ".ruby-version"
 	VersionEnvName  = "RBENV_VERSION"
@@ -42,5 +42,7 @@ func init() {
 	customRoot := os.Getenv(RootEnvName)
 	if customRoot != "" {
 		Root = customRoot
+	} else {
+		Root = os.ExpandEnv(Root)
 	}
 }
