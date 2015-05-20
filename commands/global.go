@@ -3,6 +3,7 @@ package commands
 import (
 	"github.com/mislav/everyenv/cli"
 	"github.com/mislav/everyenv/config"
+	"os"
 )
 
 var globalHelp = `
@@ -37,7 +38,13 @@ func globalCmd(args cli.Args) {
 				cli.Exit(1)
 			}
 		}
-		err := writeVersionFile(versionFile, assign)
+
+		err := os.MkdirAll(versionFile.Dir().String(), 0755)
+		if err != nil {
+			panic(err)
+		}
+
+		err = writeVersionFile(versionFile, assign)
 		if err != nil {
 			panic(err)
 		}

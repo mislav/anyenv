@@ -58,6 +58,11 @@ func rehashCmd(args cli.Args) {
 		return "${" + name + "}"
 	})
 
+	err := os.MkdirAll(shimsDir.String(), 0755)
+	if err != nil {
+		panic(err)
+	}
+
 	file, err := os.OpenFile(shimFile.String(), os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0755)
 	if err != nil {
 		cli.Errorf("cannot rehash: %s\n", err)
