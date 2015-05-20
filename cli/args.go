@@ -3,6 +3,7 @@ package cli
 import (
 	"path"
 	"path/filepath"
+	"strings"
 )
 
 type Args struct {
@@ -32,6 +33,17 @@ func (a Args) At(n int) string {
 		return a.ARGV[n]
 	} else {
 		return ""
+	}
+}
+
+func (a Args) Word(n int) string {
+	for {
+		arg := a.At(n)
+		if arg != "" && strings.HasPrefix(arg, "-") {
+			n += 1
+			continue
+		}
+		return arg
 	}
 }
 

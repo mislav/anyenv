@@ -40,7 +40,7 @@ Rbenv commands implemented so far:
 - [x] `rbenv-global`
 - [x] `rbenv-help`
 - [ ] `rbenv-hooks` :warning:
-- [ ] `rbenv-init`
+- [x] `rbenv-init`
 - [x] `rbenv-local`
 - [x] `rbenv-prefix`
 - [x] `rbenv-rehash`

@@ -2,7 +2,10 @@ package cli
 
 import (
 	"fmt"
+	"github.com/mislav/everyenv/config"
 	"os"
+	"path"
+	"strings"
 )
 
 var (
@@ -28,4 +31,20 @@ func Errorln(a ...interface{}) (n int, err error) {
 
 func Exit(code int) {
 	os.Exit(code)
+}
+
+func DetectShell(shell string) string {
+	if shell == "" {
+		shell = os.Getenv(config.ShellEnvName)
+	}
+
+	if shell == "" {
+		shell = strings.TrimLeft(path.Base(os.Getenv("SHELL")), "-")
+	}
+
+	if shell == "" {
+		shell = "bash"
+	}
+
+	return shell
 }

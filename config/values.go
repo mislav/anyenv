@@ -11,6 +11,7 @@ var (
 	VersionFilename = ".ruby-version"
 	VersionEnvName  = "RBENV_VERSION"
 	DirEnvName      = "RBENV_DIR"
+	ShellEnvName    = "RBENV_SHELL"
 	MainExecutable  = "ruby"
 	BuildVersion    = "0.0.0"
 )
