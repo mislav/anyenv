@@ -5,7 +5,20 @@ import (
 )
 
 var helpHelp = `
-Usage: $ProgramName help [<command>]
+Usage: $ProgramName <command> [<args>]
+
+Some useful $ProgramName commands are:
+   commands    List all available commands
+   local       Set or show the local application-specific version
+   global      Set or show the global version
+   shell       Set or show the shell-specific version
+   rehash      Rehash $ProgramName shims (run this after installing executables)
+   version     Show the current version and its origin
+   versions    List all versions available to $ProgramName
+   which       Display the full path to an executable
+   whence      List all versions that contain an executable
+
+See '$ProgramName help <command>' for information on a specific command.
 `
 
 func helpCmd(args cli.Args) {
