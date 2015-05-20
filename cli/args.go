@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"github.com/mislav/everyenv/utils"
+	"github.com/mislav/anyenv/utils"
 	"path"
 	"path/filepath"
 	"strings"

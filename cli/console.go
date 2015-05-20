@@ -2,7 +2,7 @@ package cli
 
 import (
 	"fmt"
-	"github.com/mislav/everyenv/config"
+	"github.com/mislav/anyenv/config"
 	"os"
 	"path"
 	"strings"

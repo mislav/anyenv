@@ -1,5 +1,5 @@
 GOCMD = go
-namespace = github.com/mislav/everyenv/config
+namespace = github.com/mislav/anyenv/config
 
 PROGRAM_VERSION ?= 0.0.1-g$(shell git rev-parse --short=7 HEAD)
 
@@ -26,7 +26,7 @@ $(PROGRAM_NAME):
 		-X $(namespace).ShellEnvName $(PROGRAM_SHELL_NAME) \
 		-X $(namespace).MainExecutable $(PROGRAM_EXECUTABLE) \
 		-X $(namespace).BuildVersion $(PROGRAM_VERSION) \
-		' -o $(PROGRAM_NAME) ./everyenv.go
+		' -o $(PROGRAM_NAME) ./anyenv.go
 
 format:
 	$(GOCMD) fmt ./...

@@ -1,7 +1,7 @@
 package commands
 
 import (
-	"github.com/mislav/everyenv/cli"
+	"github.com/mislav/anyenv/cli"
 )
 
 var versionOriginHelp = `

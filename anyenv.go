@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/mislav/everyenv/cli"
-	_ "github.com/mislav/everyenv/commands"
-	"github.com/mislav/everyenv/utils"
+	"github.com/mislav/anyenv/cli"
+	_ "github.com/mislav/anyenv/commands"
+	"github.com/mislav/anyenv/utils"
 	"os"
 	"syscall"
 )

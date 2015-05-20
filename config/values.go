@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/mislav/everyenv/utils"
+	"github.com/mislav/anyenv/utils"
 	"os"
 )
 

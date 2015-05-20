@@ -1,8 +1,8 @@
 package commands
 
 import (
-	"github.com/mislav/everyenv/cli"
-	"github.com/mislav/everyenv/config"
+	"github.com/mislav/anyenv/cli"
+	"github.com/mislav/anyenv/config"
 	"os"
 )
 

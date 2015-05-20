@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"github.com/mislav/everyenv/config"
+	"github.com/mislav/anyenv/config"
 	"os"
 	"strings"
 )
