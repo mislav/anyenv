@@ -49,7 +49,7 @@ Rbenv commands implemented so far:
 - [x] `rbenv-sh-shell`
 - [x] `rbenv-shims`
 - [x] `rbenv-version`
-- [ ] `rbenv-version-file`
+- [x] `rbenv-version-file`
 - [ ] `rbenv-version-file-read`
 - [ ] `rbenv-version-file-write`
 - [x] `rbenv-version-name`

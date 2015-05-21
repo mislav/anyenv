@@ -42,30 +42,11 @@ func detectVersion() SelectedVersion {
 	version := config.VersionEnv()
 	origin := config.VersionEnvName + " environment variable"
 
-	dirEnv := utils.NewPathname(config.DirEnv())
-	pwd := utils.Getwd()
-
-	if version == "" && !dirEnv.IsBlank() {
-		versionFile := findVersionFile(dirEnv)
-		if !versionFile.IsBlank() {
-			version, _ = readVersionFile(versionFile)
-			origin = versionFile.String()
-		}
-	}
-
-	if version == "" && !pwd.Equal(dirEnv) {
-		versionFile := findVersionFile(pwd)
-		if !versionFile.IsBlank() {
-			version, _ = readVersionFile(versionFile)
-			origin = versionFile.String()
-		}
-	}
-
 	if version == "" {
+		versionFile := detectVersionFile()
+		origin = versionFile.String()
 		var err error
-		globalVersionFile := config.GlobalVersionFile()
-		origin = globalVersionFile.String()
-		version, err = readVersionFile(globalVersionFile)
+		version, err = readVersionFile(versionFile)
 		if err != nil {
 			version = "system"
 		}
@@ -81,6 +62,27 @@ func detectVersion() SelectedVersion {
 	}
 
 	return SelectedVersion{version, origin}
+}
+
+func detectVersionFile() utils.Pathname {
+	dirEnv := utils.NewPathname(config.DirEnv())
+	pwd := utils.Getwd()
+
+	if !dirEnv.IsBlank() {
+		versionFile := findVersionFile(dirEnv)
+		if !versionFile.IsBlank() {
+			return versionFile
+		}
+	}
+
+	if !pwd.Equal(dirEnv) {
+		versionFile := findVersionFile(pwd)
+		if !versionFile.IsBlank() {
+			return versionFile
+		}
+	}
+
+	return config.GlobalVersionFile()
 }
 
 func findVersionFile(dir utils.Pathname) (versionFile utils.Pathname) {
