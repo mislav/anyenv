@@ -13,7 +13,7 @@ PROGRAM_DIR_NAME ?= $(shell tr 'a-z' 'A-Z' <<< $(PROGRAM_NAME))_DIR
 PROGRAM_SHELL_NAME ?= $(shell tr 'a-z' 'A-Z' <<< $(PROGRAM_NAME))_SHELL
 PROGRAM_HOOK_NAME ?= $(shell tr 'a-z' 'A-Z' <<< $(PROGRAM_NAME))_HOOK_PATH
 
-.PHONY: format clean
+.PHONY: test format clean
 
 all: $(PROGRAM_NAME)
 
@@ -29,6 +29,9 @@ $(PROGRAM_NAME):
 		-X $(namespace).MainExecutable=$(PROGRAM_EXECUTABLE) \
 		-X $(namespace).BuildVersion=$(PROGRAM_VERSION) \
 		' -o $(PROGRAM_NAME) ./anyenv.go
+
+test:
+	$(GOCMD) test ./...
 
 format:
 	$(GOCMD) fmt ./...

@@ -3,8 +3,7 @@ package commands
 import (
 	"github.com/mislav/anyenv/cli"
 	"github.com/mislav/anyenv/config"
-	"os"
-	"strings"
+	"github.com/mislav/anyenv/utils"
 	"syscall"
 )
 
@@ -24,21 +23,17 @@ func execCmd(args cli.Args) {
 		cli.Exit(1)
 	}
 
-	env := os.Environ()
+	env := utils.EnvFromEnviron()
+
 	if !currentVersion.IsSystem() {
-		for i, value := range env {
-			if strings.HasPrefix(value, "PATH=") {
-				oldPath := strings.TrimPrefix(value, "PATH=")
-				versionBindir := config.VersionDir(currentVersion.Name).Join("bin")
-				env[i] = "PATH=" + versionBindir.String() + ":" + oldPath
-			}
-		}
+		versionBindir := config.VersionDir(currentVersion.Name).Join("bin")
+		env.Set("PATH", versionBindir.String()+":"+env.Get("PATH"))
 	}
 
 	argv := []string{exeName}
 	argv = append(argv, args.ARGV[3:]...)
 
-	err = syscall.Exec(exePath.String(), argv, env)
+	err = syscall.Exec(exePath.String(), argv, env.Environ())
 	if err != nil {
 		cli.Errorf("%s: %s\n", args.ProgramName(), err)
 		cli.Exit(1)
