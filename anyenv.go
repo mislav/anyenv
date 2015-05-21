@@ -3,8 +3,11 @@ package main
 import (
 	"github.com/mislav/anyenv/cli"
 	_ "github.com/mislav/anyenv/commands"
+	"github.com/mislav/anyenv/config"
 	"github.com/mislav/anyenv/utils"
 	"os"
+	"path/filepath"
+	"strings"
 	"syscall"
 )
 
@@ -14,6 +17,8 @@ func main() {
 	if cmdName == "" {
 		cmdName = "help"
 	}
+
+	preparePath()
 
 	cmd := cli.Lookup(cmdName)
 	if cmd != nil {
@@ -35,5 +40,16 @@ func main() {
 			cli.Errorf("%s: %s\n", exeName, err)
 			cli.Exit(1)
 		}
+	}
+}
+
+func preparePath() {
+	pluginPaths, err := filepath.Glob(config.PluginsDir().Join("*/bin").String())
+	if err != nil {
+		panic(err)
+	}
+
+	if len(pluginPaths) > 0 {
+		os.Setenv("PATH", strings.Join(append(pluginPaths, os.Getenv("PATH")), ":"))
 	}
 }

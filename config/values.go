@@ -28,6 +28,10 @@ func ShimsDir() utils.Pathname {
 	return utils.NewPathname(Root, "shims")
 }
 
+func PluginsDir() utils.Pathname {
+	return utils.NewPathname(Root, "plugins")
+}
+
 func VersionsDir() utils.Pathname {
 	return utils.NewPathname(Root, "versions")
 }
