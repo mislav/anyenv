@@ -12,6 +12,7 @@ var (
 	VersionEnvName  = "RBENV_VERSION"
 	DirEnvName      = "RBENV_DIR"
 	ShellEnvName    = "RBENV_SHELL"
+	HookEnvName     = "RBENV_HOOK_PATH"
 	MainExecutable  = "ruby"
 	BuildVersion    = "0.0.0"
 )

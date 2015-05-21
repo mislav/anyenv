@@ -25,8 +25,15 @@ func HelpText(cmdName string, programName string) string {
 		switch name {
 		case "ProgramName":
 			return programName
+		case "Root":
+			return "$" + config.RootEnvName
 		case "VersionsDir":
 			return strings.Replace(config.VersionsDir().String(),
+				config.Root,
+				"$"+config.RootEnvName,
+				1)
+		case "PluginsDir":
+			return strings.Replace(config.PluginsDir().String(),
 				config.Root,
 				"$"+config.RootEnvName,
 				1)
@@ -34,6 +41,8 @@ func HelpText(cmdName string, programName string) string {
 			return config.VersionFilename
 		case "VersionEnvName":
 			return config.VersionEnvName
+		case "HookEnvName":
+			return config.HookEnvName
 		}
 		return "$" + name
 	})
