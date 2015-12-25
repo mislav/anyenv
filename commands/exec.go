@@ -36,6 +36,7 @@ func execCmd(args cli.Args) {
 		hookEnv.Set("RBENV_COMMAND", exeName)
 		hookEnv.Set("RBENV_COMMAND_PATH", exePath.String())
 		hookEnv.Set("RBENV_BIN_PATH", binPath.String())
+		hookEnv.Unset("BASH_ENV")
 
 		hookArgs := []string{"-e", "-c", `
 			scripts=$1; shift 1

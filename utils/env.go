@@ -17,6 +17,10 @@ func (e *Env) Set(key string, value string) {
 	e.Data[key] = value
 }
 
+func (e *Env) Unset(key string) {
+	delete(e.Data, key)
+}
+
 func (e *Env) Clone() *Env {
 	env := Env{make(map[string]string)}
 	for key, value := range e.Data {
