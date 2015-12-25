@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"fmt"
 	"github.com/mislav/anyenv/cli"
 	"github.com/mislav/anyenv/utils"
 	"os/exec"
@@ -32,22 +33,24 @@ func execCmd(args cli.Args) {
 	hooks := findHookScripts("exec")
 	if len(hooks) > 0 {
 		hookEnv := env.Clone()
-		hookEnv.Set("RBENV_VERSION", currentVersion.Name)
-		hookEnv.Set("RBENV_COMMAND", exeName)
-		hookEnv.Set("RBENV_COMMAND_PATH", exePath.String())
-		hookEnv.Set("RBENV_BIN_PATH", binPath.String())
 		hookEnv.Unset("BASH_ENV")
 
-		hookArgs := []string{"-e", "-c", `
+		bashSrc := fmt.Sprintf(`
 			scripts=$1; shift 1
+			RBENV_VERSION="%s"
+			RBENV_COMMAND="%s"
+			RBENV_COMMAND_PATH="%s"
+			RBENV_BIN_PATH="%s"
 			while [ $((scripts--)) -gt 0 ]; do source "$1"; shift 1; done
 			echo anyenv -x "RBENV_COMMAND=${RBENV_COMMAND}"
 			echo anyenv -x "RBENV_COMMAND_PATH=${RBENV_COMMAND_PATH}"
 			echo anyenv -x "RBENV_BIN_PATH=${RBENV_BIN_PATH}"
 			export
-			printf "%s\n" "---"
-			for arg; do printf "%s\0" "$arg"; done
-		`, "--", strconv.Itoa(len(hooks))}
+			printf "%%s\n" "---"
+			for arg; do printf "%%s\0" "$arg"; done
+		`, currentVersion.Name, exeName, exePath.String(), binPath.String())
+
+		hookArgs := []string{"-e", "-c", bashSrc, "--", strconv.Itoa(len(hooks))}
 		hookArgs = append(hookArgs, hooks...)
 		hookArgs = append(hookArgs, argv...)
 
