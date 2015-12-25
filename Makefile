@@ -18,14 +18,14 @@ all: $(PROGRAM_NAME)
 
 $(PROGRAM_NAME):
 	$(GOCMD) build -ldflags ' \
-		-X $(namespace).Root $(PROGRAM_ROOT) \
-		-X $(namespace).RootEnvName $(PROGRAM_ROOT_NAME) \
-		-X $(namespace).VersionFilename $(PROGRAM_FILENAME) \
-		-X $(namespace).VersionEnvName $(PROGRAM_VERSION_NAME) \
-		-X $(namespace).DirEnvName $(PROGRAM_DIR_NAME) \
-		-X $(namespace).ShellEnvName $(PROGRAM_SHELL_NAME) \
-		-X $(namespace).MainExecutable $(PROGRAM_EXECUTABLE) \
-		-X $(namespace).BuildVersion $(PROGRAM_VERSION) \
+		-X $(namespace).Root=$(PROGRAM_ROOT) \
+		-X $(namespace).RootEnvName=$(PROGRAM_ROOT_NAME) \
+		-X $(namespace).VersionFilename=$(PROGRAM_FILENAME) \
+		-X $(namespace).VersionEnvName=$(PROGRAM_VERSION_NAME) \
+		-X $(namespace).DirEnvName=$(PROGRAM_DIR_NAME) \
+		-X $(namespace).ShellEnvName=$(PROGRAM_SHELL_NAME) \
+		-X $(namespace).MainExecutable=$(PROGRAM_EXECUTABLE) \
+		-X $(namespace).BuildVersion=$(PROGRAM_VERSION) \
 		' -o $(PROGRAM_NAME) ./anyenv.go
 
 format:
