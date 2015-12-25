@@ -22,6 +22,20 @@ func resetEnv() {
 	}
 }
 
+func TestClone(t *testing.T) {
+	os.Setenv("ANYENV_TESTING", "hello")
+	defer resetEnv()
+	env1 := EnvFromEnviron()
+	env2 := env1.Clone()
+
+	assertEqual(t, "hello", env1.Get("ANYENV_TESTING"))
+	assertEqual(t, "hello", env2.Get("ANYENV_TESTING"))
+
+	env2.Set("ANYENV_TESTING", "world")
+	assertEqual(t, "hello", env1.Get("ANYENV_TESTING"))
+	assertEqual(t, "world", env2.Get("ANYENV_TESTING"))
+}
+
 func TestEnviron(t *testing.T) {
 	os.Setenv("ANYENV_TESTING_1", "hello")
 	os.Setenv("ANYENV_TESTING_2", "world")
