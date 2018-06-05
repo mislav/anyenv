@@ -12,11 +12,9 @@ PROGRAM_ROOT_NAME ?= $(shell tr 'a-z' 'A-Z' <<< $(PROGRAM_NAME))_ROOT
 PROGRAM_DIR_NAME ?= $(shell tr 'a-z' 'A-Z' <<< $(PROGRAM_NAME))_DIR
 PROGRAM_SHELL_NAME ?= $(shell tr 'a-z' 'A-Z' <<< $(PROGRAM_NAME))_SHELL
 
-.PHONY: format clean
+SOURCES = $(shell find . -name '*.go' -maxdepth 2 | grep -v '_test\.go$$')
 
-all: $(PROGRAM_NAME)
-
-$(PROGRAM_NAME):
+$(PROGRAM_NAME): $(SOURCES)
 	$(GOCMD) build -ldflags ' \
 		-X $(namespace).Root=$(PROGRAM_ROOT) \
 		-X $(namespace).RootEnvName=$(PROGRAM_ROOT_NAME) \
@@ -33,3 +31,5 @@ format:
 
 clean:
 	rm -f $(PROGRAM_NAME)
+
+.PHONY: format clean
